@@ -1,0 +1,17 @@
+*.bs
+*.c
+*.def
+*.i
+*.o
+*.obj
+*.pdb
+*.xsc
+Makefile
+Makefile.old
+blib
+pm_to_blib
+MANIFEST.bak
+Win32-APipe-*.tar.gz
+MYMETA.*
+Win32-APipe-*
+/*.patch

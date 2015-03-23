@@ -1,0 +1,6 @@
+Revision history for Perl extension Win32::APipe.
+
+0.01  Thu Mar 19 01:21:42 2015
+	- original version; created by h2xs 1.23 with options
+		-c -n Win32::APipe
+

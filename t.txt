@@ -1,0 +1,1136 @@
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\02_GetProcess.t"',
+          '1..3
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\02_GetProcess.t"',
+          'ok 1 - use Win32::API;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\02_GetProcess.t"',
+          'ok 2 - kernel32!GetCurrentProcessId import successful
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\02_GetProcess.t"',
+          'ok 3 - kernel32!GetCurrentProcessId() == Perl\'s $$
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\02_GetProcess.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          '1..57
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 1 - use Encode;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 2 - use Win32::API;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 3 - use Win32;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 4 - loaded
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 5 - found API test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 6 # skip because GetCurrentProcessId() not available on non-WinNT platforms
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 7 # skip because GetCurrentProcessId() not available on non-WinNT platforms
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 8 # skip because GetCurrentProcessId() not available on non-WinNT platforms
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 9 - Import of IsBadReadPtr function from kernel32.dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 10 - API test dll was freed
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 11 - highbit_unsigned() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 12 - return value for unsigned is signed on old API
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 13 - GetHandle operates correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 14 - FreeHandle operates correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 15 - sum_integers() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 16 - function call with integer arguments and return value (Call)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 17 - Import() on sum_integers worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 18 - function call with integer arguments and return value (Import)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 19 - sum_integers_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 20 - sum_integers_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 21 - sum_integers_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 22 - short as return type croak because they are structs on old API
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 23 - sum_shorts_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 24 - shorts croak as struct objs on old API
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 25 - API_test.dll sum_doubles function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 26 - function call with double arguments
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 27 - sum_doubles_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 28 - sum_doubles_ref() call works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 29 - sum_doubles_ref() sets ref correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 30 - sum_floats() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 31 - sum_floats() result correct
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 32 - sum_floats_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 33 - sum_floats_ref() returns the expected value (1)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 34 - sum_floats_ref() call works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 35 - find_char() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 36 - find_char() function call works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 37 - sum_char_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 38 - sum_char_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 39 - numeric truncation sum_char_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 40 - sum_char_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 41 - wstr_cmp() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 42 - buffer overflow protection worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 43 - idiot flag works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 44 - cdecl c_sum_integers() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 45 - cdecl sum_integers() returns expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 46 - ReadMemory() works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\06_rt_74578.t"',
+          '1..3
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 47 - str_cmp() with LPVOID returns the expected value
+ok 48 - Take41Params() returns the expected value
+ok 49 - Take41Params() with __stdcall/__cdecl swap dies after calling it
+ok 50 - Take41Params() stack corruption dies after calling it
+ok 51 - NULL behavior with letter proto is okay, consts
+ok 52 - NULL behavior with letter proto is okay, scalars
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\06_rt_74578.t"',
+          'ok 1 - use Win32::API::Struct;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\06_rt_74578.t"',
+          'ok 2 - ProcessEntry32 struct defined
+ok 3 - Size is calculated correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\04_rt_48006.t"',
+          '1..4
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\04_rt_48006.t"',
+          'ok 1 - use Win32::API::Struct;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\04_rt_48006.t"',
+          'ok 2 - ProcessEntry32 struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\04_rt_48006.t"',
+          'ok 3 - Size is calculated correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          '1..17
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\06_rt_74578.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          '1..22
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 1 - use Win32::API;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 2 - loaded
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 3 - found API test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 4 - mangle_simple_struct() function
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 5 - mangling of simple structures work
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 6 - tied interface works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          '1..26
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          '1..7
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          'ok 1 - "all_longs" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          'ok 2 - Size of struct "all_longs" is calculated correctly (20)
+ok 3 - "array_of_chars" struct defined
+ok 4 - Size of struct "array_of_chars" is calculated correctly (100)
+ok 5 - "compound_1" struct defined
+ok 6 - Size of struct "compound_1" is calculated correctly (212)
+ok 7 - "compound_2" struct defined
+not ok 8 - Size of struct "compound_2" is calculated correctly (14) # TODO Breaks atm
+#   Failed (TODO) test \'Size of struct "compound_2" is calculated correctly (14)\'
+#   at C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t line 132.
+#          got: \'14\'
+#     expected: \'11\'
+ok 9 - "empty" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          'ok 10 - Size of struct "empty" is calculated correctly (0)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          'ok 11 - "four_words" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          'ok 12 - Size of struct "four_words" is calculated correctly (16)
+ok 13 - "mixing_longs_and_dwords" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          'ok 14 - Size of struct "mixing_longs_and_dwords" is calculated correctly (12)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          'ok 15 - "one_char" struct defined
+ok 16 - Size of struct "one_char" is calculated correctly (1)
+ok 17 - "one_word" struct defined
+ok 18 - Size of struct "one_word" is calculated correctly (4)
+ok 19 - "one_word_no_semicolon" struct defined
+ok 20 - Size of struct "one_word_no_semicolon" is calculated correctly (4)
+ok 21 - "only_chars" struct defined
+ok 22 - Size of struct "only_chars" is calculated correctly (3)
+ok 23 - "three_words" struct defined
+ok 24 - Size of struct "three_words" is calculated correctly (12)
+ok 25 - "two_words" struct defined
+ok 26 - Size of struct "two_words" is calculated correctly (8)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\05_more_struct.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          'ok 1 - use Win32::API;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          'ok 2 - found API test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          'ok 3 - setlasterror_loop() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          'ok 4 - QueryPerformanceCounter Win32::API obj created
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          'ok 5 - QueryPerformanceFrequency Win32::API obj created and call success
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\04_rt_48006.t"',
+          'ok 4 - uninitialized struct is all nulls
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\04_rt_48006.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 53 - NULL behavior with letter proto is okay, scalar str "0" cast
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 54 - NULL behavior with letter proto is okay, scalar str ""
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'ok 55 - NULL behavior with letter proto is okay, scalar str "" cast
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          'find_char: got \'japh\', \'a\'
+find_char: tmp now \'japh\'
+find_char: tmp now \'aph\'
+One of the 40 In params was bad
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\00_API.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          '1..17
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\03_undef.t"',
+          '1..3
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\pod.t"',
+          '1..1
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\pod.t"',
+          'not ok 1 - POD test for lib
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\pod.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 7 - manual packing fake WlanConnect returned ERROR_SUCCESS
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 8 - ::Struct fake WlanConnect returned ERROR_SUCCESS
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 9 - undef child struct turned to defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 10 - defined child struct turned to undefined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 11 - typedefing EIGHT_CHARS worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 12 - buffer_overflow filled the struct correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 13 - type mismatch check worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 14 - buffer_overflow filled the struct correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 15 - can not ::Struct::new a LP prefixed struct name for a defined struct
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 16 - Type::typedef worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          'ok 17 - Type::typedef doesn\'t change the ::Struct db
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 1 - use Win32::API;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 2 - found API test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\03_undef.t"',
+          'ok 1 - import sample API (PeekNamedPipe)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\01_Struct.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 1 - use Win32::API;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 2 - use Win32;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 3 - found API test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          '1..36
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 3 - find_char() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 4 - find_char() function call works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 5 - SafeReadWideCString ASCII
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 6 - SafeReadWideCString Wide
+ok 7 - SafeReadWideCString null pointer
+ok 8 - Struct \'S\' invalid return type
+ok 9 - Struct \'T\' invalid return type
+ok 10 - Callback invalid return type
+ok 11 - ::More Struct \'T\' invalid return type
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 12 - ::More Callback invalid return type
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'find_char: got \'japh\', \'a\'
+find_char: tmp now \'japh\'
+find_char: tmp now \'aph\'
+ok 13 - GetCurrentThreadId with \'V\' in proto works
+ok 14 - GetCurrentThreadId with array \'V\' in proto works
+ok 15 - in V proto param + other param fails
+ok 16 - GetCurrentThreadId with \'\' in proto works
+ok 17 - GetCurrentThreadId with \'\' out proto works
+ok 18 - GetCurrentThreadId with \'\' out proto works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 19 - in UseMI64 off mode, numeric scalar \'1\' turns to bad 1 char string
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          'ok 20 - garbage return and garbage pointer fill the same
+ok 21 - in UseMI64 off mode, 8 digit numeric scalar defeats 8 byte length check but produces garbage output
+ok 22 - pointer to quad is equal to returned quad without UseMI64
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v71.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 4 - sum_quads_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 5 - old api sum_quads_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 6 - sum_quads_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 7 - sum_quads_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 8 - new api sum_quads_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 9 - sum_quads_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 10 - sum_quads_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 11 - MI64 sum_quads_ref() returns 1 value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 12 - old api with MI64 sum_quads_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 13 - sum_quads_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 14 - sum_quads_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 15 - UseMI64 works correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 16 - new api with MI64 sum_quads_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          'ok 17 - sum_quads_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v70.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 1 - use Win32::API;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\pod-coverage.t"',
+          '1..1
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          '1..28
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 1 - "all_longs" struct defined
+ok 2 - Size of struct "all_longs" is calculated correctly (20)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 3 - "array_of_chars" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 4 - Size of struct "array_of_chars" is calculated correctly (100)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\03_undef.t"',
+          'ok 2 - reclaiming child worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\03_undef.t"',
+          'ok 3 - (RT \\#39730) sample API (PeekNamedPipe) works with undef values
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\03_undef.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 2 - use Win32::API::Test;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          '1..20
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 1 - found API test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 2 - loaded test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 3 - Import() on sum_integers worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 4 - refcnt --ed on test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 5 - function call with integer arguments and return value (Import)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 6 - undefed ::Import sub fails $@="Undefined subroutine &main::nothing called at C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t line 29."
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 7 - test dll unloaded
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 8 - Import() on sum_shorts_ref worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 9 - sum_shorts_ref() returns the expected unsigned value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 10 - sum_shorts_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 11 - Import() on non existant func failed
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 12 - Import() on non existant dll failed
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 13 - found wrong architecture API test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 14 - wrong architecture DLL load has correct GLR
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 15 - GetHandle from func pointer using letter interface operates correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 16 - empty string as func name for func * not allowed
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 17 - Import() on sum_quads_ref worked
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 18 - UseMI64 works correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 19 - ::More::Import() with MI64 sum_quads_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          'ok 20 - sum_quads_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 5 - "compound_1" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v76.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 6 - Size of struct "compound_1" is calculated correctly (212)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 7 - "compound_2" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 8 - Size of struct "compound_2" is calculated correctly (12)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 9 - "empty" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'ok 10 - Size of struct "empty" is calculated correctly (0)
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 3 - use Win32;
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          'not ok 11 - "empty_with_spaces" struct defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 4 - found API test dll
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 5 - GetHandle operates correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 6 - FreeHandle operates correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 7 - highbit_unsigned() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 8 - return value for unsigned is unsigned
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 9 - 2 word ret type highbit_unsigned() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 10 - return value for unsigned is unsigned
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 11 - sum_shorts_ref() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 12 - sum_shorts_ref() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 13 - sum_shorts_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 14 - sum_shorts_ref() returns the expected unsigned value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 15 - sum_shorts_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 16 - sum_char_ref() returns the expected character value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 17 - sum_char_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 18 - sum_uchar_ret_int() returns the expected numeric value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 19 - signed sum_char_ref() returns the expected numeric value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 20 - sum_char_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 21 - unsigned sum_char_ref() returns the expected numeric value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 22 - sum_char_ref() correctly modifies its ref argument
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 23 - str_cmp() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\StructTest.pl"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 24 - wstr_cmp() returns the expected value
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 25 - GetHandle from func pointer using C prototype operates correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 26 - GetHandle from func pointer using letter interface operates correctly
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 27 - Can\'t create a Win32::API obj to func ptr 2
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 28 - find_char() function defined
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 29 - numeric return find_char() function call works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'find_char: got \'\', \'\'
+find_char: tmp now \'\'
+find_char: tmp now \'\'
+find_char: tmp now \'\'
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 30 - MoveMemory() and ReadMemory() work
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 31 - WriteMemory() works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 32 - WriteMemory() length check works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 33 - HeapFree works
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 34 - 1 is a bad pointer for IsBadReadPtr
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 35 - IsBadReadPtr returned false on a good pointer
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          'ok 36 - ** types do not parse currently
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\v69.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\pod-coverage.t"',
+          'ok 1 - Pod coverage on Win32::API
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\pod-coverage.t"',
+          ''
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          'ok 6 - QPC calls succeeded
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          'ok 7 - QPC calls succeeded
+'
+        ];
+$VAR1 = [
+          'C:\\perl521\\bin\\perl.exe "C:\\Documents and Settings\\Owner\\Desktop\\cpan libs\\w32a\\g\\t\\benchmark.t"',
+          ''
+        ];
