@@ -1,6 +1,10 @@
 *.bs
 *.c
 *.def
+*.exp
+*.base
+*.lib
+*.a
 *.i
 *.o
 *.obj

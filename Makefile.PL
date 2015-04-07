@@ -15,4 +15,6 @@ WriteMakefile(
     #INC               => '-I.', # e.g., '-I. -I/usr/include/other'
 	# Un-comment this if you add C files to link with later:
     # OBJECT            => '$(O_FILES)', # link all the C files too
+    PL_FILES          => {'ntdll.PL' => 'ntdll$(LIB_EXT)'},
+    MYEXTLIB          => 'ntdll$(LIB_EXT)'
 );

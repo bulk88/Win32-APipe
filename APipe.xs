@@ -13,9 +13,6 @@
 #include "XSUB.h"
 
 #include "ppport.h"
-/* NTSTATUS definition inside ntsecapi.h */
-#include <ntsecapi.h>
-
 
 /* nowadays in winternl.h, but not there in winternl.h for VC 2003, and
   winternl.h doesnt exist in VC 6, so there is no reliable place to find it,
@@ -54,12 +51,89 @@
    in-flight read still going on, so the APROC * is freed, then later the final
    read packet comes in, with an freed APROC * in it, SEGV then. This will have
    to be fixed if NOTIFY_ON_PROC_END is ever revived.
+
+   Maybe waitpid is needed if Test::Harness wants the exit code, does it want
+   the exit code?
    */
 //#define NOTIFY_ON_PROC_END
 
 
 /* some statistics that are printed in END */
 #define STATS
+
+/* use NT Native API, use NtReadFile instead of ReadFile */
+#define NATIVE
+
+/*************************************************************************
+ *END OF CONFIGURATION AREA
+ *************************************************************************
+ */
+
+/* NTSTATUS definition inside ntsecapi.h
+   ntsecapi.h and winternl.h are mutually exclusive,
+   but we dont use winternl.h (see below) */
+#include <ntsecapi.h>
+
+/* used in NATIVE and Win32 build options */
+typedef struct _IO_STATUS_BLOCK {
+    union {
+        NTSTATUS Status;
+        PVOID Pointer;
+    };
+    ULONG_PTR Information;
+} IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
+
+#ifdef NATIVE
+/* In VC 2003's winternl.h NtClose is declared by accident without
+   NTAPI/__stdcall, but in the normal way of doing things, that declaration will
+   never be used, since MS says to is GetProcAddress, instead we make our own
+   import lib. So those declarations were never supposed to be used.
+   If we declaring NtClose with NTAPI that causes error C2373,
+   this declaration problem was corrected later by MS, by atleast SDK 7.1, so if
+   the SDK is new enough, it wont have that declaration bug. But MS doesn't use
+   __declspec(dllimport) inside NTAPI (less efficient), so just dont use
+   winternl.h at all on any CC because of those 2 reasons */
+
+#  include "APNt.h"
+
+/* BOOL APCreateIoCompletionPort(HANDLE * NewHandle) */
+ /* last arg sets 1 thread, Perl doesn't process TAP with many to many layout */
+#  define APCreateIoCompletionPort(NewHandle) \
+    (NT_SUCCESS(NtCreateIoCompletion((NewHandle), IO_COMPLETION_ALL_ACCESS, NULL, 1)) ? TRUE : FALSE)
+__forceinline
+BOOL
+APBindFileIoPort(HANDLE FileHandle, HANDLE Port, ULONG_PTR Key) {
+    /* save some C stack, IoStatusBlock is mandatory, but we dont use it */
+    union {
+        IO_STATUS_BLOCK IoStatusBlock;
+        FILE_COMPLETION_INFORMATION CompletionInformation;
+    } Info;
+
+    NTSTATUS Status;
+    Info.CompletionInformation.Port = Port;
+    Info.CompletionInformation.Key = (PVOID)Key;
+    Status = NtSetInformationFile(FileHandle,
+                                      &Info.IoStatusBlock,
+                                      &Info.CompletionInformation,
+                                      sizeof(FILE_COMPLETION_INFORMATION),
+                                      FileCompletionInformation);
+    return NT_SUCCESS(Status) ? TRUE : FALSE;
+}
+
+/* The below I tried with the bad winternl.h declaration, but you dont get the
+   __declspec(dllimport) optimization by doing this */
+//#define CloseHandle(x) (NT_SUCCESS(((NTSTATUS(NTAPI *)(HANDLE))NtClose)(x)) ? TRUE : FALSE)
+
+/* These are here for a tiny bit of perf increase, no real reason unlike NtReadFile */
+/* The :? optimizes away if DBGAPIPE is off */
+#define CloseHandle(x) (NT_SUCCESS(NtClose(x)) ? TRUE : FALSE)
+#define PostQueuedCompletionStatus(Port, BytesTransferred, Key, Overlapped) \
+    (NT_SUCCESS(NtSetIoCompletion(Port, Key, Overlapped, STATUS_SUCCESS, BytesTransferred)) ? TRUE : FALSE)
+#else
+ /* last arg sets 1 thread, Perl doesn't process TAP with many to many layout */
+#  define APCreateIoCompletionPort(NewHandle) ((*(NewHandle) = CreateIoCompletionPort(INVALID_HANDLE_VALUE,NULL,0, 1)) ? TRUE : FALSE)
+#  define APBindFileIoPort(Handle, Port, Key) (CreateIoCompletionPort(Handle, Port, Key, 0) ? TRUE : FALSE)
+#endif
 
 #ifdef DBGAPIPE
 /* check the "BOOL" ret value of kernel32 API things that normally are
@@ -88,7 +162,16 @@
 
 /* note an LPOVERLAPPED can be cast to APROC * and back */
 typedef struct {
-    OVERLAPPED overlapped;
+#ifndef NATIVE
+/* we dont need Offset and hEvent members for Native API, they are only used by
+  ReadFile/GetOverlappedResult */
+    union {
+        OVERLAPPED overlapped;
+#endif
+        IO_STATUS_BLOCK IoStatus;
+#ifndef NATIVE
+    };
+#endif
     HANDLE hStdOut;
 #ifdef NOTIFY_ON_PROC_END
     HANDLE hProcess;
@@ -101,6 +184,7 @@ typedef struct {
 #endif
     DWORD PendingWaiters; /* undelivered active IOCPs containing this APROC * */
 } APROC;
+
 
 /* common const struts */
 const char empty_aproc [sizeof(APROC)] = {0};
@@ -156,14 +240,7 @@ init_MY_CXT(my_cxt_t * cxt) /* doesn't need pTHX */
     cxt->MaxRead = 0;
     cxt->MinRead = -1;
 #endif
-    cxt->Port =
-    CreateIoCompletionPort(
-        INVALID_HANDLE_VALUE,
-        NULL,
-        0,
-        1 /* 1 thread, Perl doesn't process TAP with many to many layout */
-    );
-    DBGCHKBOOL(cxt->Port);
+    DBGCHKBOOL(APCreateIoCompletionPort(&cxt->Port));
 }
 
 #ifdef NOTIFY_ON_PROC_END
@@ -196,14 +273,19 @@ VOID CALLBACK WaitFunc( APROC * aproc, BOOLEAN TimerOrWaitFired) {
 
 void
 StartRead(APROC * aproc) {
+#ifndef NATIVE
     BOOL ret;
     DWORD err;
+#else
+    NTSTATUS Status;
+#endif
     aproc->PendingWaiters++;
 #ifdef DBGAPIPE
     if(aproc->buffer)
         DebugBreak();
 #endif
     Newx(aproc->buffer, PIPE_BUF_SIZE+1, char);
+#ifndef NATIVE
     ret = ReadFile(
       aproc->hStdOut,
       aproc->buffer,
@@ -221,10 +303,26 @@ StartRead(APROC * aproc) {
                    failed syncronously */
                 aproc->overlapped.Internal = STATUS_PIPE_BROKEN;
             else
-                DebugBreak(); /* unknown ATM how to convert win32 err code to
-                                aproc->overlapped.Internal NTSTATUS, StartRead
-                                will probably have to use NtReadFile to get the
-                                real NTSTATUS code */
+/* Unknown how to convert an arbitrary win32 err code to
+   aproc->overlapped.Internal NTSTATUS code. An HRESULT is a more expansive
+   version of NTSTATUS, and there is an API to go from Win32 error code to
+   HRESULT but IDK how accurate the conversion, so i wont try it.
+   Using NtReadFile to get the NTSTATUS code is easiest. */
+                DebugBreak();
+#else
+    Status = NtReadFile(aproc->hStdOut,         /* FileHandle */
+                        NULL,                   /* Event */
+                        NULL,                   /* ApcRoutine */
+                        aproc,                  /* ApcContext */
+                        &aproc->IoStatus,       /* IoStatusBlock */
+                        aproc->buffer,          /* Buffer */
+                        PIPE_BUF_SIZE,          /* Length */
+                        NULL,                   /* ByteOffset */
+                        NULL);                  /* Key */
+    if(Status != STATUS_SUCCESS && Status != STATUS_PENDING) {
+        if(1) { /* match Win32 code flow */
+            aproc->IoStatus.Status = Status;
+#endif
 #ifdef PERL_IMPLICIT_SYS
             DBGCHKBOOL(PostQueuedCompletionStatus(
                 aproc->Port,
@@ -273,10 +371,25 @@ FreeAPROC(pTHX_ APROC * aproc) {
     DBGCHKBOOL(CloseHandle(aproc->hProcess));
     DBGSETNULL(aproc->hProcess);
 #endif
+/* XXX maybe we can recycle pipes for the next process instead of freeing them ??? */
     DBGCHKBOOL(CloseHandle(aproc->hStdOut));
     DBGSETNULL(aproc->hStdOut);
     Safefree(aproc);
 }
+
+/* get rid of CRT startup code on MSVC, it is bloat, this module uses 2
+   libc functions, memcpy and swprintf, they dont need initialization */
+#ifdef _MSC_VER
+BOOL WINAPI _DllMainCRTStartup(
+    HINSTANCE hinstDLL,
+    DWORD fdwReason,
+    LPVOID lpReserved )
+{
+    if (fdwReason == DLL_PROCESS_ATTACH)
+        return DisableThreadLibraryCalls(hinstDLL);
+    return TRUE;
+}
+# endif
 
 
 MODULE = Win32::APipe		PACKAGE = Win32::APipe
@@ -357,18 +470,20 @@ CODE:
     DBGCHKBOOL(aproc->hStdOut);
     {
         dMY_CXT;
+/* VC optimizer in -O1 fails to optimize MY_CXT.Port to 1 read of MY_CXT
+  instead of 2, if 2 are written (one for aproc, one for APBindFileIoPort) */
+        HANDLE Port = MY_CXT.Port;
 #ifdef PERL_IMPLICIT_SYS
         /* WaitFunc needs to know what IOCP to deliver its exit event on, aTHX
            here is another choice, but remember WaitFunc is running in a random
            thread so using the interp from the wrong OS thread is risky so
            just put the IOCP here to KISS */
-        aproc->Port = MY_CXT.Port;
+        aproc->Port = Port;
 #endif
-        DBGCHKBOOL(CreateIoCompletionPort(
+        DBGCHKBOOL(APBindFileIoPort(
           aproc->hStdOut,
-          MY_CXT.Port,
-          KEY_READ_FINISHED,
-          0 /* max threads, ignored because its an existing port */
+          Port,
+          KEY_READ_FINISHED
         ));
     }
 
@@ -456,7 +571,7 @@ CODE:
         StartRead(aproc);
     } else {
         DBGCHKBOOL(CloseHandle(aproc->hStdOut));
-        aproc->hStdOut = NULL;
+        DBGSETNULL(aproc->hStdOut);
         Safefree(aproc);
     }
 OUTPUT:
@@ -482,23 +597,47 @@ next(bufferSV)
     SV* bufferSV
 PREINIT:
     dMY_CXT;
-    DWORD NumberOfBytes;
     ULONG_PTR CompletionKey;
     APROC * aproc;
-    BOOL ret;
+#ifdef NATIVE
+    IO_STATUS_BLOCK IoStatus;
+#  define NumberOfBytes (IoStatus.Information)
+#else
+    DWORD NumberOfBytes;
+#endif
 CODE:
 {   /* use CODE: so SP isn't moved back so the SETs below works */
-    ret = GetQueuedCompletionStatus(
+#ifndef NATIVE
+{   BOOL ret = GetQueuedCompletionStatus(
         MY_CXT.Port,
         &NumberOfBytes,
         &CompletionKey,
         (LPOVERLAPPED*)&aproc,
         INFINITE
     );
-    /* a serious error happened, no packet received */
-    if(ret == FALSE && aproc == NULL) {
+    /* a serious error happened, no packet received, do not proceed */
+    if(ret == FALSE && aproc == NULL)
         DebugBreak();
-    }
+}
+#else
+{
+    NTSTATUS Status = NtRemoveIoCompletion(
+        MY_CXT.Port,
+        (PVOID *)&CompletionKey,
+        (PVOID *)&aproc,
+        &IoStatus,
+        NULL /* infinity */
+    );
+    /* a serious error happened, no packet received, do not proceed */
+    if(!NT_SUCCESS(Status))
+        DebugBreak();
+#ifdef DBGAPIPE
+    /* these 2 better match according to the NT API */
+     if(memcmp(&aproc->IoStatus, &IoStatus, sizeof(IO_STATUS_BLOCK)) != 0)
+        DebugBreak();
+#endif
+}
+#endif
     SvREFCNT_inc_simple_NN(aproc->opaque);
     /* 1 scalar in, 1 scalar out, so use SETs with no PUTBACK since SP didn't move */
     SETs(sv_2mortal(aproc->opaque));
@@ -508,10 +647,20 @@ CODE:
         /* note here, NumberOfBytes might be less than PIPE_BUF_SIZE, so we are
           undershooting the real length of the mem block, a realloc that returns
           the same ptr might happen, I dont see any way around it */
+        /* XXX, do we maintain state on how full this buffer is, if its not full
+          yet, do we do another async ReadFile and "goto" to GetQueuedCompletionStatus
+          and wait again, this way Perl 5 code doesn't get <100 byte or low 100s
+          of bytes, but many KBs of bytes to process, evaluate the numbers
+          returned by the STATS feature on what avg read size is.
+          What about newlines, should we always restart the read and read more
+          until atleast 1 newline is found in the block? what if 4096 bytes go
+          by with no newline? what about a test file that outputs many KBs of
+          NULL bytes, and no newline ever? do we realloc the buffer up and up
+          until either newline appears or end of stream? */
         /* not using GetOverlappedResult, dont need its features/bloat */
         /* 0xC000014B 3221225803  STATUS_PIPE_BROKEN */
-        if(NT_SUCCESS(aproc->overlapped.Internal)
-           || aproc->overlapped.Internal == STATUS_PIPE_BROKEN ) {
+        if(NT_SUCCESS(aproc->IoStatus.Status)
+           || aproc->IoStatus.Status == STATUS_PIPE_BROKEN ) {
             char * buffer = aproc->buffer;
             aproc->buffer = NULL; /* rmv later */
             buffer[NumberOfBytes] = '\0';
@@ -528,7 +677,7 @@ CODE:
 #ifdef DBGAPIPE
             /*  STATUS_PIPE_BROKEN is end of stream, not STATUS_SUCCESS
                 investigate if this trips */
-            if(NT_SUCCESS(aproc->overlapped.Internal) && NumberOfBytes == 0)
+            if(NT_SUCCESS(aproc->IoStatus.Status) && NumberOfBytes == 0)
                 DebugBreak();
 #endif
             if(NumberOfBytes)
@@ -550,4 +699,5 @@ CODE:
         DebugBreak();
 #endif
     return; /* skip implicit PUTBACK */
+#undef NumberOfBytes
 }
