@@ -20,13 +20,17 @@ sub GenTAP {
     die "usage: GenTAP" if @_ != 4;
     my ($time_per_sleep, $sleep_count, $emitter, $test_count) = @_;
     die "invalid test count" if $test_count >= UVMAX;
-    my($testnum, $tests_before_sleep, $tests_left_before_sleep, $buffer, $ok) = (1, UVMAX, UVMAX);
+    my($testnum, $tests_before_sleep, $tests_left_before_sleep, $buffer, $ok, $is) = (1, UVMAX, UVMAX);
 
 #emmit a plan
     if($emitter eq 'ok') {
         require Test::More;
         Test::More::plan(tests => $test_count);
         $ok = \&Test::More::ok;
+    } elsif($emitter eq 'is') {
+        require Test::More;
+        Test::More::plan(tests => $test_count);
+        $is = \&Test::More::is;
     } elsif($emitter eq 'tinyok') {
         require Test::Tiny;
         Test::Tiny->import(tests => $test_count);
@@ -54,6 +58,8 @@ sub GenTAP {
         substr($testname, $replace, 1, uc(substr($testname, $replace, 1)));
         if ($emitter eq 'ok') {
             &$ok(1, $testname);
+        } elsif($emitter eq 'is') {
+            &$is(1, 1, $testname);
         } else {
             my $testline = 'ok '.$testnum.' '.$testname."\n";
             if ($emitter eq 'print') {
