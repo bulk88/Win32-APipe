@@ -24,6 +24,7 @@ foreach(@runlist) {
 my %results;
 
 chdir('C:\Documents and Settings\Owner\Desktop\cpan libs\w32a\g');
+@runlist = ($runlist[11]);
 foreach(@runlist) {
     $activeprocesses++;
     my $opaque = $_;
@@ -32,7 +33,7 @@ foreach(@runlist) {
 #sleep 2;
 do {
     my $opaque = Win32::APipe::next($buf);
-    print Dumper([$opaque, $buf]);
+    #print Dumper([$opaque, $buf]);
     if(length($buf) == 0 ){
         $activeprocesses--;
     }
@@ -41,5 +42,5 @@ do {
     }
 } while($activeprocesses);
 
-#print Dumper(\%results);
+print Dumper(\%results);
 

@@ -55,14 +55,14 @@
    Maybe waitpid is needed if Test::Harness wants the exit code, does it want
    the exit code?
    */
-//#define NOTIFY_ON_PROC_END
+#define NOTIFY_ON_PROC_END
 
 
 /* some statistics that are printed in END */
 #define STATS
 
 /* use NT Native API, use NtReadFile instead of ReadFile */
-#define NATIVE
+//#define NATIVE
 
 /*************************************************************************
  *END OF CONFIGURATION AREA
@@ -161,6 +161,7 @@ APBindFileIoPort(HANDLE FileHandle, HANDLE Port, ULONG_PTR Key) {
 #endif
 
 /* note an LPOVERLAPPED can be cast to APROC * and back */
+/*todo this struct has alignment holes, rethink the order of members one day */
 typedef struct {
 #ifndef NATIVE
 /* we dont need Offset and hEvent members for Native API, they are only used by
@@ -173,9 +174,25 @@ typedef struct {
     };
 #endif
     HANDLE hStdOut;
+    /* even tho the parent proc never uses the hWritePipe, only the child proc
+      does, the parent proc must keep this handle alive (Win32 handles are ref
+      counted by the kernel) until the child proc exits, otherwise, the moment
+      the child proc exists, all buffered unread data in the pipe is lost,
+      TAP::Harness isn't fast/efficient enough on a multicore machine to keep
+      up with a child proc very quickly emitting TAP, with print()s for example.
+      Basically the STATUS_PIPE_BROKEN error is not end of data, but is end of
+      process.
+      */
+    HANDLE hWritePipe; 
 #ifdef NOTIFY_ON_PROC_END
     HANDLE hProcess;
     HANDLE hWaitObj;
+/* should times and exit code be in APROC sturct and fetched in threadpool thread
+  or it is waste of mem, and perl thread should do this in next()? */
+    FILETIME CreationTime;
+    FILETIME ExitTime;
+    FILETIME KernelTime;
+    FILETIME UserTime;
 #endif
     SV * opaque;
     char * buffer;
@@ -183,6 +200,12 @@ typedef struct {
     HANDLE Port; /* not owned here, the MY_CXT var is the owner of the IOCP */
 #endif
     DWORD PendingWaiters; /* undelivered active IOCPs containing this APROC * */
+#ifdef NOTIFY_ON_PROC_END
+    DWORD ExitCode;
+#endif
+#ifdef DBGAPIPE
+    char InWait;
+#endif
 } APROC;
 
 
@@ -201,6 +224,8 @@ const STARTUPINFO StartupInfo = {sizeof(StartupInfo), 0};
 
 DWORD PipeID = 0;
 
+DWORD GlobalWaiters = 0;
+    
 #if PERL_IMPLICIT_CONTEXT
 #  define GETNEXTPIPEID() InterlockedIncrement(&PipeID)
 #else
@@ -227,7 +252,6 @@ typedef struct {
     DWORD MaxRead;
     DWORD MinRead;
 #endif
-
 } my_cxt_t;
 
 START_MY_CXT
@@ -247,14 +271,23 @@ init_MY_CXT(my_cxt_t * cxt) /* doesn't need pTHX */
 /* turns a WFSO/WFMO event (process exit in this case) into an IOCP queue event */
 /* reads are more likely to happen then process exits*/
 VOID CALLBACK WaitFunc( APROC * aproc, BOOLEAN TimerOrWaitFired) {
-
+    aproc->InWait = 1;
     if(TimerOrWaitFired == TRUE)
         DebugBreak();
-
+    DBGCHKBOOL(GetExitCodeProcess(aproc->hProcess, &aproc->ExitCode));
+    DBGCHKBOOL(GetProcessTimes(aproc->hProcess, 
+    &aproc->CreationTime,
+    &aproc->ExitTime,
+    &aproc->KernelTime,
+    &aproc->UserTime));
+    /* close the write handle, the async read will block (forever) until this handle is freed by both this (parent) perl proc, and the child proc */
+    //Sleep(2000);
+    DBGCHKBOOL(CloseHandle(aproc->hWritePipe));
+    DBGSETNULL(aproc->hWritePipe);
 #ifdef PERL_IMPLICIT_SYS
     DBGCHKBOOL(PostQueuedCompletionStatus(
         aproc->Port,
-        0,
+        0, // to save mem, send exit code through dwNumberOfBytesTransferred and not in the aproc struct????
         KEY_PROCESS_EXITED,
         (LPOVERLAPPED)aproc
     ));
@@ -266,6 +299,7 @@ VOID CALLBACK WaitFunc( APROC * aproc, BOOLEAN TimerOrWaitFired) {
         (LPOVERLAPPED)aproc
     ));
 #endif
+    aproc->InWait = 0; //segv risk on this line, we might be freed
 }
 
 #endif /* #ifdef NOTIFY_ON_PROC_END */
@@ -273,12 +307,15 @@ VOID CALLBACK WaitFunc( APROC * aproc, BOOLEAN TimerOrWaitFired) {
 
 void
 StartRead(APROC * aproc) {
+    dTHX;
+    dMY_CXT;
 #ifndef NATIVE
     BOOL ret;
     DWORD err;
 #else
     NTSTATUS Status;
 #endif
+    GlobalWaiters++;
     aproc->PendingWaiters++;
 #ifdef DBGAPIPE
     if(aproc->buffer)
@@ -352,15 +389,22 @@ FreeAPROC(pTHX_ APROC * aproc) {
 #ifdef NOTIFY_ON_PROC_END
     {
         BOOL ret;
+	DWORD err;
+#ifdef DBGAPIPE
         DWORD start = GetTickCount();
         DWORD end;
+#endif
         ret = UnregisterWait(aproc->hWaitObj);
+        if(!ret)
+	    err = GetLastError();
+#ifdef DBGAPIPE
         end = GetTickCount();
 /* this isn't supposed to block, but GTC is a low res counter remember */
-        if(end - start > 20)
+        if(end - start > 64)
             DebugBreak();
+#endif
 /* ERROR_IO_PENDING is not acceptable, the callback was supposed to be 1 shot */
-        DBGCHKBOOL(ret);
+        //DBGCHKBOOL(ret);
         DBGSETNULL(aproc->hWaitObj);
     }
 #endif
@@ -371,6 +415,8 @@ FreeAPROC(pTHX_ APROC * aproc) {
     DBGCHKBOOL(CloseHandle(aproc->hProcess));
     DBGSETNULL(aproc->hProcess);
 #endif
+    //DBGCHKBOOL(CloseHandle(aproc->hWritePipe));
+    //DBGSETNULL(aproc->hWritePipe);
 /* XXX maybe we can recycle pipes for the next process instead of freeing them ??? */
     DBGCHKBOOL(CloseHandle(aproc->hStdOut));
     DBGSETNULL(aproc->hStdOut);
@@ -442,7 +488,6 @@ run(cmd, opaque)
     char * cmd
     SV * opaque
 PREINIT:
-    HANDLE hWritePipe;
     APROC * aproc;
 CODE:
     Newxz(aproc, 1, APROC);
@@ -463,7 +508,7 @@ CODE:
       1, /* 1 instance*/
       PIPE_BUF_SIZE,
       PIPE_BUF_SIZE,
-      120 * 1000, /* from MyCreatePipeEx and reactos's CreatePipe */
+      1* 1000, /* from MyCreatePipeEx and reactos's CreatePipe */
       NULL/*LPSECURITY_ATTRIBUTES lpSecurityAttributes*/
     );
 
@@ -487,7 +532,7 @@ CODE:
         ));
     }
 
-    hWritePipe = CreateFileW(
+    aproc->hWritePipe = CreateFileW(
                         PipeName,
                         GENERIC_WRITE,
                         0,
@@ -497,7 +542,7 @@ CODE:
                         NULL
                       );
 #ifdef DBGAPIPE
-    if (INVALID_HANDLE_VALUE == hWritePipe)
+    if (INVALID_HANDLE_VALUE == aproc->hWritePipe)
         DebugBreak();
 #endif
     } //scope WCHAR PipeName
@@ -513,7 +558,7 @@ CODE:
         _RTL_USER_PROCESS_PARAMETERS->StandardOutput and friends like CreateProcess
         does internally, Perl had problems with this/dup() in the past, where the
         effects show up in other ithreads/psuedoprocs */
-    SetStdHandle(STD_OUTPUT_HANDLE, hWritePipe);
+    SetStdHandle(STD_OUTPUT_HANDLE, aproc->hWritePipe);
 #endif
 #ifdef INHERIT_HANDLES
     StartupInfo.cb = sizeof(StartupInfo);
@@ -553,9 +598,9 @@ CODE:
 #ifndef INHERIT_HANDLES
     SetStdHandle(STD_OUTPUT_HANDLE, oldout);
 #endif
-    DBGCHKBOOL(CloseHandle(hWritePipe));
     } /* scope CreateProcess */
     if(RETVAL == ERROR_SUCCESS) {
+        dMY_CXT;
 #ifdef NOTIFY_ON_PROC_END
         DBGCHKBOOL(RegisterWaitForSingleObject(
             &aproc->hWaitObj,
@@ -564,7 +609,9 @@ CODE:
             aproc,
             INFINITE,
             WT_EXECUTEONLYONCE));
+        GlobalWaiters++;
         aproc->PendingWaiters++;
+        aproc->ExitCode = STILL_ACTIVE;
 #endif
         /* save the caller's opaque SV*, this is probably an RV to a blessed SV */
         aproc->opaque = SvREFCNT_inc_simple_NN(opaque);
@@ -607,6 +654,9 @@ PREINIT:
 #endif
 CODE:
 {   /* use CODE: so SP isn't moved back so the SETs below works */
+    restart:
+    if(GlobalWaiters == 0)
+        croak("you can't next() when there is no work");
 #ifndef NATIVE
 {   BOOL ret = GetQueuedCompletionStatus(
         MY_CXT.Port,
@@ -638,12 +688,12 @@ CODE:
 #endif
 }
 #endif
-    SvREFCNT_inc_simple_NN(aproc->opaque);
-    /* 1 scalar in, 1 scalar out, so use SETs with no PUTBACK since SP didn't move */
-    SETs(sv_2mortal(aproc->opaque));
+    GlobalWaiters--;
+    aproc->PendingWaiters--;
     /* SP can be reused by CC optimizer after here */
     if(CompletionKey == KEY_READ_FINISHED) {
-        aproc->PendingWaiters--;
+        char * buffer = aproc->buffer;
+        aproc->buffer = NULL; /* rmv later */
         /* note here, NumberOfBytes might be less than PIPE_BUF_SIZE, so we are
           undershooting the real length of the mem block, a realloc that returns
           the same ptr might happen, I dont see any way around it */
@@ -659,18 +709,15 @@ CODE:
           until either newline appears or end of stream? */
         /* not using GetOverlappedResult, dont need its features/bloat */
         /* 0xC000014B 3221225803  STATUS_PIPE_BROKEN */
-        if(NT_SUCCESS(aproc->IoStatus.Status)
-           || aproc->IoStatus.Status == STATUS_PIPE_BROKEN ) {
-            char * buffer = aproc->buffer;
-            aproc->buffer = NULL; /* rmv later */
+        if(NT_SUCCESS(aproc->IoStatus.Status)) {
             buffer[NumberOfBytes] = '\0';
 #ifdef STATS
             /* exclude 0 byte reads, they are in-band "signalling" I/O, not data */
-            if(NumberOfBytes) {
+            //if(NumberOfBytes) {
                 MY_CXT.MinRead = min(MY_CXT.MinRead, NumberOfBytes);
                 MY_CXT.MaxRead = max(MY_CXT.MaxRead, NumberOfBytes);
                 MY_CXT.AvgRead = (MY_CXT.AvgRead+NumberOfBytes)/2.0;
-            }
+            //}
 #endif
             sv_usepvn_flags(bufferSV, buffer, NumberOfBytes, SV_HAS_TRAILING_NUL);
             /* a 0 byte read means end of stream */
@@ -680,18 +727,40 @@ CODE:
             if(NT_SUCCESS(aproc->IoStatus.Status) && NumberOfBytes == 0)
                 DebugBreak();
 #endif
-            if(NumberOfBytes)
+            SvREFCNT_inc_simple_NN(aproc->opaque);
+            /* 1 scalar in, 1 scalar out, so use SETs with no PUTBACK since SP didn't move */
+            SETs(sv_2mortal(aproc->opaque));
+            //rmv later
+            //if(NumberOfBytes)
                 StartRead(aproc);
-            else
-                FreeAPROC(aTHX_ aproc);
+            //else {
+            //    DebugBreak();
+            //    FreeAPROC(aTHX_ aproc);
+            //}
+        }
+        else if( aproc->IoStatus.Status == STATUS_PIPE_BROKEN ) {
+            Safefree(buffer);
+            goto non_read_event; /* wait for KEY_PROCESS_EXITED event */
         }
         else
             DebugBreak(); /* unknown error happened on the async read */
     }
 #ifdef NOTIFY_ON_PROC_END
     else if (CompletionKey == KEY_PROCESS_EXITED) {
-        aproc->PendingWaiters--;
-        FreeAPROC(aTHX_ aproc);
+        non_read_event:
+        if(aproc->PendingWaiters == 0) {
+            HV * hv = newHV();
+            sv_replace(bufferSV, newRV_noinc((SV*)hv));
+#define SETFILETIME(hv, aproc, val) hv_store(hv, #val, sizeof("" #val "")-1, newSVpvn((char *)&aproc->val, sizeof(aproc->val)), 0)
+            SETFILETIME(hv, aproc, CreationTime);
+            SETFILETIME(hv, aproc, ExitTime);
+            SETFILETIME(hv, aproc, KernelTime);
+            SETFILETIME(hv, aproc, UserTime);
+            hv_store(hv, "ExitCode", sizeof("ExitCode")-1, newSVuv(aproc->ExitCode), 0);
+            FreeAPROC(aTHX_ aproc);
+        }
+        else
+            goto restart; /* there is an in flight read or end of process wait*/
     }
 #endif
 #ifdef DBGAPIPE
@@ -701,3 +770,89 @@ CODE:
     return; /* skip implicit PUTBACK */
 #undef NumberOfBytes
 }
+
+DWORD
+status_to_sig(status)
+    DWORD status
+CODE:
+# ifndef STATUS_FAILED_STACK_SWITCH
+#  define STATUS_FAILED_STACK_SWITCH ((NTSTATUS) 0xC0000373L)
+# endif
+# ifndef STATUS_HEAP_CORRUPTION
+#  define STATUS_HEAP_CORRUPTION ((NTSTATUS) 0xC0000374L)
+# endif
+#  ifndef STATUS_INVALID_CRUNTIME_PARAMETER
+#    define STATUS_INVALID_CRUNTIME_PARAMETER ((DWORD)0xC0000417L)
+#  endif
+#  ifndef SIGBUS
+#    define	SIGBUS	10	/* bus error */
+#  endif
+#  ifndef SIGTRAP
+#    define	SIGTRAP	5
+#  endif
+#  ifndef SIGSYS
+#    define	SIGSYS	12
+#  endif
+/* https://github.com/pathscale/stdcxx/blob/master/util/exec.cpp */
+    switch(status) {
+        case STATUS_BREAKPOINT:
+            RETVAL = SIGTRAP;
+            break;
+        case STATUS_ACCESS_VIOLATION:
+            RETVAL = SIGSEGV;
+            break;
+        case STATUS_STACK_OVERFLOW:
+            RETVAL = SIGSEGV;
+            break;
+        case STATUS_HEAP_CORRUPTION:
+            RETVAL = SIGSEGV;
+            break;
+        case STATUS_STACK_BUFFER_OVERRUN:
+            RETVAL = SIGSEGV;
+            break;
+        case STATUS_IN_PAGE_ERROR:
+            RETVAL = SIGBUS;
+            break;
+        case STATUS_ILLEGAL_INSTRUCTION:
+            RETVAL = SIGILL;
+            break;
+        case STATUS_PRIVILEGED_INSTRUCTION:
+            RETVAL = SIGILL;
+            break;
+        case STATUS_FLOAT_DENORMAL_OPERAND:
+            RETVAL = SIGFPE;
+            break;
+        case STATUS_FLOAT_DIVIDE_BY_ZERO:
+            RETVAL = SIGFPE;
+            break;
+        case STATUS_FLOAT_INEXACT_RESULT:
+            RETVAL = SIGFPE;
+            break;
+        case STATUS_FLOAT_INVALID_OPERATION:
+            RETVAL = SIGFPE;
+            break;
+        case STATUS_FLOAT_OVERFLOW:
+            RETVAL = SIGFPE;
+            break;
+        case STATUS_FLOAT_UNDERFLOW:
+            RETVAL = SIGFPE;
+            break;
+        case STATUS_INTEGER_DIVIDE_BY_ZERO:
+            RETVAL = SIGFPE;
+            break;
+        case STATUS_INTEGER_OVERFLOW:
+            RETVAL = SIGFPE;
+            break;
+        case STATUS_FLOAT_STACK_CHECK:
+            RETVAL = SIGFPE; /* note, ignore code on google that says SIGSTKFLT, this is a rare in unix signal, and MS's _XcptActTab says STATUS_FLOAT_STACK_CHECK is SIGFPE */
+            break;
+        case STATUS_INVALID_PARAMETER:
+            RETVAL = SIGSYS;
+            break;
+        case STATUS_INVALID_CRUNTIME_PARAMETER:
+            RETVAL = SIGSYS;
+        default:
+            RETVAL = 0;
+    }
+OUTPUT:
+    RETVAL
