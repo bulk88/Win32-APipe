@@ -83,6 +83,9 @@ typedef struct _IO_STATUS_BLOCK {
     ULONG_PTR Information;
 } IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
 
+typedef DWORD (WINAPI* pfnGetProcID)(HANDLE h);
+pfnGetProcID MyGetProcessId;
+
 #ifdef NATIVE
 /* In VC 2003's winternl.h NtClose is declared by accident without
    NTAPI/__stdcall, but in the normal way of doing things, that declaration will
@@ -431,11 +434,28 @@ BOOL WINAPI _DllMainCRTStartup(
     DWORD fdwReason,
     LPVOID lpReserved )
 {
-    if (fdwReason == DLL_PROCESS_ATTACH)
-        return DisableThreadLibraryCalls(hinstDLL);
+    BOOL ret;
+    if (fdwReason == DLL_PROCESS_ATTACH) {
+        ret = DisableThreadLibraryCalls(hinstDLL);
+        if(!ret)
+            return ret;
+        ret = cBOOL(MyGetProcessId = (pfnGetProcID) GetProcAddress(GetModuleHandle("KERNEL32.DLL"),"GetProcessId"));
+        return ret;
+    }
     return TRUE;
 }
-# endif
+#else
+BOOL WINAPI DllMain(
+    HINSTANCE hinstDLL,
+    DWORD fdwReason,
+    LPVOID lpReserved )
+{
+    if (fdwReason == DLL_PROCESS_ATTACH) {
+        return cBOOL(MyGetProcessId = (pfnGetProcID) GetProcAddress(GetModuleHandle("KERNEL32.DLL"),"GetProcessId"));
+    }
+}
+
+#endif
 
 
 MODULE = Win32::APipe		PACKAGE = Win32::APipe
@@ -484,9 +504,11 @@ PPCODE:
 #
 # returns GLR error code or 0 for sucess
 DWORD
-run(cmd, opaque)
+run(cmd, opaque, merge, pid)
     char * cmd
     SV * opaque
+    bool merge
+    SV * pid
 PREINIT:
     APROC * aproc;
 CODE:
@@ -553,20 +575,25 @@ CODE:
 #else
     /* use const global StartupInfo */
     HANDLE oldout = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE olderr;
     /* this needs a critical section for thread safety, or use create suspended
         and DuplicateHandle and WriteProcessMemory to new proc's PEB's
         _RTL_USER_PROCESS_PARAMETERS->StandardOutput and friends like CreateProcess
         does internally, Perl had problems with this/dup() in the past, where the
         effects show up in other ithreads/psuedoprocs */
     SetStdHandle(STD_OUTPUT_HANDLE, aproc->hWritePipe);
+    if(merge) {
+        olderr = GetStdHandle(STD_ERROR_HANDLE);
+        SetStdHandle(STD_ERROR_HANDLE, aproc->hWritePipe);
+    }
 #endif
 #ifdef INHERIT_HANDLES
     StartupInfo.cb = sizeof(StartupInfo);
     memset(&StartupInfo.lpReserved, 0, offsetof(STARTUPINFO,hStdInput)-offsetof(STARTUPINFO,lpReserved));
-    StartupInfo.dwFlags = STARTF_USESTDHANDLES; /* egh zeroed by the memset */
-    StartupInfo.hStdInput	= (HANDLE)_get_osfhandle(0);
+    StartupInfo.dwFlags    = STARTF_USESTDHANDLES; /* egh zeroed by the memset */
+    StartupInfo.hStdInput  = (HANDLE)_get_osfhandle(0);
     StartupInfo.hStdOutput = hWritePipe;
-    StartupInfo.hStdError	= (HANDLE)_get_osfhandle(2);
+    StartupInfo.hStdError  = merge ? hWritePipe : (HANDLE)_get_osfhandle(2);
 #endif
 
     if (CreateProcess(NULL,		/* search PATH to find executable */
@@ -585,6 +612,7 @@ CODE:
 		       NULL,		/* inherit cwd */
 		       (LPSTARTUPINFO)&StartupInfo,
 		       &ProcessInformation)) {
+        sv_setiv(pid, MyGetProcessId(ProcessInformation.hProcess));
 #ifdef NOTIFY_ON_PROC_END
         aproc->hProcess = ProcessInformation.hProcess;
 #else
@@ -597,6 +625,8 @@ CODE:
         RETVAL = GetLastError();
 #ifndef INHERIT_HANDLES
     SetStdHandle(STD_OUTPUT_HANDLE, oldout);
+    if (merge)
+        SetStdHandle(STD_ERROR_HANDLE, olderr);
 #endif
     } /* scope CreateProcess */
     if(RETVAL == ERROR_SUCCESS) {
