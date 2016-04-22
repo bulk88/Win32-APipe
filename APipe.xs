@@ -59,7 +59,7 @@
 
 
 /* some statistics that are printed in END */
-#define STATS
+//#define STATS
 
 /* use NT Native API, use NtReadFile instead of ReadFile */
 //#define NATIVE
@@ -272,7 +272,7 @@ init_MY_CXT(my_cxt_t * cxt) /* doesn't need pTHX */
 
 #ifdef NOTIFY_ON_PROC_END
 /* turns a WFSO/WFMO event (process exit in this case) into an IOCP queue event */
-/* reads are more likely to happen then process exits*/
+/* reads are more likely to happen than process exits*/
 VOID CALLBACK WaitFunc( APROC * aproc, BOOLEAN TimerOrWaitFired) {
     aproc->InWait = 1;
     if(TimerOrWaitFired == TRUE)
@@ -684,7 +684,9 @@ PREINIT:
 #endif
 CODE:
 {   /* use CODE: so SP isn't moved back so the SETs below works */
+#ifdef NOTIFY_ON_PROC_END
     restart:
+#endif
     if(GlobalWaiters == 0)
         croak("you can't next() when there is no work");
 #ifndef NATIVE
@@ -720,7 +722,9 @@ CODE:
 #endif
     GlobalWaiters--;
     aproc->PendingWaiters--;
-    /* SP can be reused by CC optimizer after here */
+    SvREFCNT_inc_simple_NN(aproc->opaque);
+    /* 1 scalar in, 1 scalar out, so use SETs with no PUTBACK since SP didn't move */
+    SETs(sv_2mortal(aproc->opaque));
     if(CompletionKey == KEY_READ_FINISHED) {
         char * buffer = aproc->buffer;
         aproc->buffer = NULL; /* rmv later */
@@ -757,9 +761,6 @@ CODE:
             if(NT_SUCCESS(aproc->IoStatus.Status) && NumberOfBytes == 0)
                 DebugBreak();
 #endif
-            SvREFCNT_inc_simple_NN(aproc->opaque);
-            /* 1 scalar in, 1 scalar out, so use SETs with no PUTBACK since SP didn't move */
-            SETs(sv_2mortal(aproc->opaque));
             //rmv later
             //if(NumberOfBytes)
                 StartRead(aproc);
