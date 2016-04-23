@@ -530,7 +530,7 @@ CODE:
       1, /* 1 instance*/
       PIPE_BUF_SIZE,
       PIPE_BUF_SIZE,
-      1* 1000, /* from MyCreatePipeEx and reactos's CreatePipe */
+      120*1000, /* from MyCreatePipeEx and reactos's CreatePipe, 120 seconds */
       NULL/*LPSECURITY_ATTRIBUTES lpSecurityAttributes*/
     );
 
