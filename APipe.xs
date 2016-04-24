@@ -1,6 +1,6 @@
 #define PERL_NO_GET_CONTEXT
-/* need old swprintf on VC >= 2005 */
-#if _MSC_VER >= 1400
+/* need old swprintf on VC >= 2005 and Mingw */
+#if !defined(_MSC_VER) || _MSC_VER >= 1400
 #  define _CRT_NON_CONFORMING_SWPRINTFS
 #endif
 /* for STATUS_SUCCESS */
